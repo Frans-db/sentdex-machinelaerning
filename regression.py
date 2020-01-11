@@ -1,15 +1,30 @@
 from statistics import mean
+from matplotlib import style
 import matplotlib.pyplot as plt
 import numpy as np
+
+# matplotlib style
+style.use('fivethirtyeight')
 
 # create data
 xs = np.array([1, 2, 3, 4, 5, 6], dtype=np.float64)
 ys = np.array([5, 4, 6, 5, 6, 7], dtype=np.float64)
 
-def best_fit_slope(xs, ys):
+# function to calculate the slope and y intercept of a dataset
+def best_fit_line(xs, ys):
     m = (mean(xs) * mean(ys) - mean(xs*ys)) / (mean(xs)**2 - mean(xs**2))
     b = mean(ys) - m * mean(xs)
     return m, b
 
-m, b = best_fit_slope(xs, ys)
-print(m, b)
+m, b = best_fit_line (xs, ys)
+
+# creating the y hat line
+regression_line = [m * x + b for x in xs]
+# prediction an unknown point
+predict_x = 8
+predict_y = m * predict_x + b
+
+plt.scatter(xs, ys)
+plt.scatter(predict_x, predict_y)
+plt.plot(xs, regression_line)
+plt.show()
