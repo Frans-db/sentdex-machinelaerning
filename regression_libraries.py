@@ -27,7 +27,7 @@ forecast_col = 'Adj. Close'
 # fill non existant data with -99999
 df.fillna(-99999, inplace=True)
 # how many days into the future we want to predict
-forecast_out = int(math.ceil(0.01 * len(df)))
+forecast_out = int(math.ceil(0.1 * len(df)))
 print(f'Shifting data {forecast_out} days into the future')
 # creating the label (data we want to predict)
 df['label'] = df[forecast_col].shift(-forecast_out) 
@@ -35,10 +35,10 @@ df['label'] = df[forecast_col].shift(-forecast_out)
 X = np.array(df.drop(['label'], 1))
 # scaling the data 
 X = preprocessing.scale(X)
-# removing forecast_out elements
-X = X[:-forecast_out]
 # features to predict unknown data
 X_lately = X[-forecast_out:]
+# removing forecast_out elements
+X = X[:-forecast_out]
 # extracting the labels
 df.dropna(inplace=True)
 y = np.array(df['label'])
